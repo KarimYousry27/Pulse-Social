@@ -22,3 +22,4 @@ React 19 + Vite + JavaScript + Tailwind CSS v4 + HeroUI v3.2.6, React Query, Rea
 HeroUI v3 Button is used through `src/components/ui.jsx`; inputs and select are intentionally simple native controls to keep React Hook Form integration clear. The UI adapter avoids the incompatible v2 HeroUI APIs. This project has not been end-to-end verified against authenticated production API data.
 "# pulse-social" 
 "# pulse-social" 
+"# Pulse-Social" 
