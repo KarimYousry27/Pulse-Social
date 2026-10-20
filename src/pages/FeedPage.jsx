@@ -1,0 +1,10 @@
+import { Search } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '../components/ui';
+import { useQuery } from '@tanstack/react-query';
+import { postsApi } from '../api/services';
+import { listFrom, displayName, owner } from '../utils/data';
+import PostComposer from '../components/PostComposer';
+import PostCard from '../components/PostCard';
+import { Loading, Message, ErrorText } from '../components/Feedback';
+export default function FeedPage({explore=false}) { const [page,setPage]=useState(1); const query=useQuery({queryKey:['posts',explore?'explore':'feed',page],queryFn:()=>explore?postsApi.all(page):postsApi.feed(page)}); const [search,setSearch]=useState(''); const posts=listFrom(query.data).filter(post=>`${post.body||post.content||''} ${displayName(owner(post))}`.toLowerCase().includes(search.toLowerCase())); return <div><div className="mb-5"><h1 className="page-title">{explore?'Explore posts 🌎':'Your feed ✨'}</h1><p className="muted mt-1">{explore?'Discover what everyone is sharing.':'Catch up with your community.'}</p></div><label className="search-field"><Search size={18}/><input aria-label="Search visible posts" placeholder="Search posts on this page..." value={search} onChange={e=>setSearch(e.target.value)}/></label>{!explore&&<PostComposer/>}{query.isLoading?<Loading/>:query.isError?<div className="surface p-6 text-center"><p className="mb-3 text-red-400">Could not load posts. Check your connection.</p><Button onPress={()=>query.refetch()}>Try Again</Button></div>:posts.length?posts.map(post=><PostCard key={post._id||post.id} post={post}/>):<Message>{explore?'No posts to show.':'Your feed is empty. Follow some people or explore posts!'}</Message>}<div className="flex justify-center gap-3 py-5"><Button variant="bordered" isDisabled={page===1} onPress={()=>setPage(p=>p-1)}>Previous</Button><span className="self-center text-sm text-slate-500">Page {page}</span><Button color="secondary" isDisabled={query.isError||query.isFetching||posts.length===0} onPress={()=>setPage(p=>p+1)}>Next</Button></div></div>; }

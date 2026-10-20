@@ -1,0 +1,8 @@
+import { useState } from 'react';
+import { Button, Input } from '../components/ui';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { passwordSchema } from '../schemas/auth';
+import { authApi } from '../api/services';
+import { useAuth } from '../context/AuthContext';
+export default function SettingsPage() { const {login}=useAuth(); const [error,setError]=useState(''); const [success,setSuccess]=useState(''); const [busy,setBusy]=useState(false); const {control,handleSubmit,reset,formState:{errors}}=useForm({resolver:zodResolver(passwordSchema),defaultValues:{password:'',newPassword:''}}); async function submit(values) {setBusy(true);setError('');setSuccess('');try{const result=await authApi.changePassword(values);const token=result?.token||result?.data?.token;if(token)login(token);reset();setSuccess('Password changed successfully.');}catch(e){setError(e.message);}finally{setBusy(false);}}return <div><h1 className="page-title mb-5">Settings ⚙️</h1><div className="surface p-6"><h2 className="mb-4 text-lg font-bold">Change password</h2><form className="space-y-4" onSubmit={handleSubmit(submit)}>{['password','newPassword'].map(name=><Controller key={name} name={name} control={control} render={({field})=><Input {...field} type="password" variant="bordered" label={name==='password'?'Current password':'New password'} isInvalid={!!errors[name]} errorMessage={errors[name]?.message}/>}/>)}{error&&<p className="text-sm text-red-600">{error}</p>}{success&&<p className="text-sm text-green-700">{success}</p>}<Button color="secondary" type="submit" isLoading={busy}>Update password</Button></form></div></div>; }

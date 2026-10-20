@@ -1,0 +1,4 @@
+import axios from 'axios';
+export const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'https://route-posts.routemisr.com' });
+api.interceptors.request.use((config) => { const token = localStorage.getItem('pulse_token'); if (token) config.headers.Authorization = `Bearer ${token}`; return config; });
+api.interceptors.response.use((response) => response.data, (error) => { const status=error.response?.status; const raw=error.response?.data?.message; const safe = status===401 ? 'Session expired or invalid credentials.' : status===422 || status===400 ? 'Please check the information you entered and try again.' : error.response ? (typeof raw==='string' && raw.length<180 && !/password|rePassword|token|secret/i.test(raw) ? raw : 'The request could not be completed.') : 'Connection failed. Please check your internet connection.'; return Promise.reject(new Error(safe)); });

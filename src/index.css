@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@layer base {
+  :root { font-family: Inter, system-ui, sans-serif; color: #17212f; background: #f3f6fa; }
+  body { margin: 0; min-height: 100vh; }
+  button { cursor: pointer; }
+}
+
+@layer components {
+  .surface { @apply rounded-2xl border border-slate-200 bg-white shadow-sm; }
+  .navlink { @apply flex items-center gap-3 rounded-xl px-4 py-3 font-semibold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900; }
+  .navlink.active { @apply bg-slate-200 text-slate-950; }
+  .muted { @apply text-sm text-slate-500; }
+  .field-error { @apply mt-1 text-xs text-red-600; }
+  .page-title { @apply text-2xl font-extrabold tracking-tight text-slate-900; }
+}
+
+/* Pulse night theme — consistent surfaces and text throughout the application */
+:root { color-scheme: dark; background:#070d1b; color:#e9efff; }
+body { background: radial-gradient(circle at 55% 0%, #132747 0%, #080f20 42%, #070d1b 100%); color:#e9efff; }
+.surface { background:#101c32 !important; border-color:#263955 !important; box-shadow:0 10px 32px #0003; }
+.navlink { color:#a9bad5 !important; }
+.navlink:hover,.navlink.active { background:#1c3150 !important; color:#f3f7ff !important; }
+.page-title { color:#f3f7ff !important; }
+.muted { color:#a3b6d4 !important; }
+.text-slate-900,.text-slate-950,.text-slate-800,.text-slate-700 { color:#edf3ff !important; }
+.text-slate-600,.text-slate-500 { color:#a3b6d4 !important; }
+.bg-white,.bg-white\/90,.bg-slate-50,.bg-slate-100,.bg-slate-200 { background-color:#101c32 !important; }
+.border-slate-200,.border-slate-300 { border-color:#2c4161 !important; }
+input,textarea,select { background:#0b172c !important; color:#edf3ff !important; border-color:#324a6c !important; }
+input::placeholder,textarea::placeholder { color:#91a5c2 !important; }
+button { transition:background-color .15s,color .15s; }
+
+/* Final accessibility and dark-theme consistency */
+html,body,#root { min-height:100%; }
+*,*::before,*::after { box-sizing:border-box; }
+body { overflow-x:hidden; }
+.surface, .surface button, .surface h2, .surface h3, .surface b { color:#edf3ff; }
+.surface button:hover { color:#fff; }
+.surface summary, .surface details button, .surface .font-bold, .surface .font-medium { color:#f1f6ff !important; }
+.surface details button:hover { background:#203653 !important; }
+.surface details button.text-red-600 { color:#ff7c8b !important; }
+.surface details button.text-red-600:hover { background:#402033 !important; }
+.surface button:focus-visible, .navlink:focus-visible, .account-menu a:focus-visible { outline:2px solid #38bdf8; outline-offset:2px; }
+.search-field { display:flex;align-items:center;gap:10px;padding:11px 14px;margin:0 0 18px;border:1px solid #2b4163;border-radius:14px;background:#101c32;color:#a3b6d4; }
+.search-field input { border:0 !important; outline:0;background:transparent !important;flex:1;min-width:0;color:#edf3ff !important; }
+.account-menu { position:absolute;top:calc(100% + 12px);right:0;z-index:60;min-width:170px;background:#101c32;border:1px solid #334969;border-radius:14px;padding:6px;box-shadow:0 15px 40px #0008; }
+.account-menu a,.account-menu button { display:block;width:100%;padding:11px 12px;text-align:left;color:#edf3ff;border-radius:9px;font-size:14px;font-weight:600; }
+.account-menu a:hover,.account-menu button:hover { background:#203653;color:#fff; }
+.account-menu button:last-child { color:#ff9aaa; }
+@media(max-width:420px) { .surface { max-width:100%; } .page-title { font-size:1.45rem; } }
+/* Button contrast: never put white text on a white hover background. */
+button[class*="bg-transparent"]:hover { background:#203653 !important;color:#f4f8ff !important; }
+button[class*="bg-slate-950"] { background:#050d20 !important;color:#f4f8ff !important; }
+button[class*="bg-slate-950"]:hover { background:#213956 !important;color:#fff !important; }
+button[class*="border-slate-300"] { background:#101c32 !important;color:#edf3ff !important; }
+button[class*="border-slate-300"]:hover { background:#203653 !important; }
+
+/* Keep the comment action readable on hover and keyboard focus in dark mode. */
+.post-comment-action,
+.post-comment-action:hover,
+.post-comment-action:focus-visible {
+  color: #edf3ff !important;
+}
+.post-comment-action:hover,
+.post-comment-action:focus-visible {
+  background: #203653 !important;
+}
+.post-comment-action svg {
+  color: #8cc9ff !important;
+}

@@ -1,0 +1,4 @@
+import { z } from 'zod';
+export const loginSchema = z.object({ email: z.string().email('Enter a valid email'), password: z.string().min(1,'Password is required') });
+export const signupSchema = z.object({ name: z.string().min(2,'Enter your name'), username: z.string().min(3,'At least 3 characters'), email: z.string().email('Enter a valid email'), dateOfBirth: z.string().min(1,'Select your birthday'), gender: z.enum(['male','female']), password: z.string().min(8,'At least 8 characters'), rePassword: z.string().min(1,'Confirm your password') }).refine((data) => data.password === data.rePassword, { message:'Passwords must match', path:['rePassword'] });
+export const passwordSchema = z.object({ password: z.string().min(1,'Enter current password'), newPassword: z.string().min(8,'At least 8 characters') });
